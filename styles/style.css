@@ -1,0 +1,12 @@
+.notetext {
+    padding-left: 20px;
+    margin-bottom: 1ex;
+}
+
+.notetime {
+    font-size: xx-small;
+}
+
+.noteuser {
+    font-weight: bold;
+}
