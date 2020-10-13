@@ -1,8 +1,7 @@
-
-function createDivNotesOnBody() {
-    let divNotes = document.createElement("div");
-    divNotes.setAttribute("id", "notes");
-    document.body.appendChild(divNotes);
+function createNotesDiv() {
+    let notesDiv = document.createElement("div");
+    notesDiv.setAttribute("id", "notes");
+    document.body.appendChild(notesDiv);
 }
 
 function fetchNotes(formater) {
