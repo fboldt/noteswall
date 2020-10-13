@@ -1,15 +1,17 @@
 <?php
+require_once '../database/database_connection_setup.php';
 
 class DatabaseWrapper {
   
   private  $databaseConnection;
 
   function __construct(){
-    $hostName = 'localhost';
-    $database = 'noteswall';
-    $useName = 'francisco';
-    $password = 'francisco';
-    $this->$databaseConnection = new mysqli($hostName, $useName, $password, $database);
+    $databaseConnectionSetup = createDatabaseConnectionSetup();
+    $hostName = $databaseConnectionSetup['hostName'];
+    $database = $databaseConnectionSetup['database'];
+    $userName = $databaseConnectionSetup['userName'];
+    $password = $databaseConnectionSetup['password'];
+    $this->$databaseConnection = new mysqli($hostName, $userName, $password, $database);
   }
 
   function __destruct() {
@@ -45,7 +47,7 @@ class DatabaseWrapper {
 
   private function treatQuery($queryArray) {
     $queryTreater = new QueryTreater($queryArray);
-    $treatedQuery = $queryTreater->getTreatedQuery();
+    $treatedQuery = $queryTreater->getTreatedSelectQuery();
     return $treatedQuery;
   }
 
@@ -106,7 +108,7 @@ class QueryTreater {
     return '1';
   }
 
-  function getTreatedQuery() {
+  function getTreatedSelectQuery() {
     $treatedQuery = array();
     $fields = ['entity', 'criteria', 'orderby', 'desc'];
     foreach ($fields as $field) {

@@ -6,7 +6,7 @@ function formHasField($fieldName) {
 }
 
 function getFields() {
-    $fields = ['username', 'message'];
+    $fields = ['username', 'notetext'];
     $fieldsArray = array();
     foreach ($fields as $field) {
         if (formHasField($field)) {

@@ -40,7 +40,7 @@ function noteMessageFormater(note) {
     let fields = {
         "noteuser": note.username,
         "notetime": note.notetime,
-        "notetext": note.message,
+        "notetext": note.notetext,
     }
     for (let klass in fields) {
         let element = createDivWithText(klass, fields[klass]);
