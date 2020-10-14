@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", startupNotes);
+
+function startupNotes() {
+    createNotesDiv();
+    fetchNotes(notesFormater);
+}
+
 function createNotesDiv() {
     let notesDiv = document.createElement("div");
     notesDiv.setAttribute("id", "notes");

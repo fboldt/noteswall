@@ -31,6 +31,6 @@ function insertNotes() {
 }
 
 print_r(insertNotes());
-header("Location: ../");
+// header("Location: ../");
 
 ?>

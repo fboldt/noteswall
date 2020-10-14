@@ -3,7 +3,7 @@ require_once '../database/database_wrapper.php';
 
 function makeNotesQuery() {
     $queryArray = array(
-        'entity' => 'notes',
+        'entity' => 'notesview',
         'orderby' => 'notetime',
         'desc' => 'desc'
     );
