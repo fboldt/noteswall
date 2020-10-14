@@ -1,8 +1,6 @@
 <?php
 require_once '../database/database_wrapper.php';
 
-session_start();
-
 class Login {
     private $databaseWrapper;
     private $username;
@@ -12,6 +10,7 @@ class Login {
         $this->databaseWrapper = new DatabaseWrapper();
         $this->username = "";
         $this->password = "";
+        session_start();
     }
 
     static function postFieldsAreSet() {
@@ -92,16 +91,5 @@ class Login {
         session_destroy();
     }
 }
-
-$login = new Login();
-$response = Login::failResponse();
-if (Login::userIsLogged() && !Login::postFieldsAreSet()) {
-    $response = $login->checkLogin();
-} else {
-    $response = $login->checkCredentials();
-}
-echo (json_encode($response));
-
-// header("Location: ../");
 
 ?>
