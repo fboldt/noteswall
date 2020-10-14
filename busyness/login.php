@@ -1,6 +1,8 @@
 <?php
 require_once '../database/database_wrapper.php';
 
+session_start();
+
 class Login {
     private $databaseWrapper;
     private $username;
@@ -10,7 +12,6 @@ class Login {
         $this->databaseWrapper = new DatabaseWrapper();
         $this->username = "";
         $this->password = "";
-        session_start();
     }
 
     static function postFieldsAreSet() {

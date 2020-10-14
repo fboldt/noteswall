@@ -1,21 +1,10 @@
 <?php
-require_once '../database/database_wrapper.php';
-
-function makeNotesQuery() {
-    $queryArray = array(
-        'entity' => 'notesview',
-        'orderby' => 'notetime',
-        'desc' => 'desc'
-    );
-    return $queryArray;
-}
+require_once '../busyness/notes.php';
 
 function getNotes() {
-    $databaseWrapper = new DatabaseWrapper();
-    $queryArray = makeNotesQuery();
-    $resultArray = $databaseWrapper->select($queryArray);
-    $responseObject = array("notes" => $resultArray);
-    return json_encode($responseObject);
+    $notes = new Notes();
+    $response = $notes->getNotes();
+    return json_encode($response);
 }
 
 print_r(getNotes());

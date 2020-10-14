@@ -1,36 +1,13 @@
 <?php
-require_once '../database/database_wrapper.php';
+require_once '../busyness/notes.php';
 
-function formHasField($fieldName) {
-    return isset($_POST[$fieldName]) && !empty($_POST[$fieldName]);
-}
-
-function getFields() {
-    $fields = ['username', 'notetext'];
-    $fieldsArray = array();
-    foreach ($fields as $field) {
-        if (formHasField($field)) {
-            $fieldsArray[$field] = $_POST[$field];
-        }
-    }
-    return $fieldsArray;
-}
-
-function makeInsertQuery() {
-    $queryArray = array();
-    $queryArray['entity'] = 'notes';
-    $queryArray['fields'] = getFields();
-    return $queryArray;
-}
-
-function insertNotes() {
-    $databaseWrapper = new DatabaseWrapper();
-    $queryArray = makeInsertQuery();
-    $response = $databaseWrapper->insert($queryArray);
+function insertNote() {
+    $notes = new Notes();
+    $response = $notes->insertNote();
     return $response;
 }
 
-print_r(insertNotes());
+print_r(insertNote());
 // header("Location: ../");
 
 ?>
