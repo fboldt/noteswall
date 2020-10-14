@@ -45,9 +45,8 @@ class Notes {
         return $queryArray;
     }
 
-    function insertNote() {
-        $queryArray = $this->makeInsertQuery();
-        $response = $this->databaseWrapper->insert($queryArray);
+    function insertNote($userid, $notetext) {
+        $response = $this->databaseWrapper->insertNote($userid, $notetext);
         return $response;
     }
 

@@ -29,7 +29,11 @@ function insertNote() {
     data.append('notetext', form.newnotetext.value);
     fetch('backend/newnote.php', { method: 'POST', body: data })
         .then(response => response.text())
-        .then(data => console.log(data));
+        .then(data => {
+            if (data == "1") {
+                console.log("inserido");
+            }
+        });
 }
 
 function createObserver() {

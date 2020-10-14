@@ -11,11 +11,11 @@ class DatabaseWrapper {
     $database = $databaseConnectionSetup['database'];
     $userName = $databaseConnectionSetup['userName'];
     $password = $databaseConnectionSetup['password'];
-    $this->$databaseConnection = new mysqli($hostName, $userName, $password, $database);
+    $this->databaseConnection = new mysqli($hostName, $userName, $password, $database);
   }
 
   function __destruct() {
-    $this->$databaseConnection->close();
+    $this->databaseConnection->close();
   }
 
   function sanitizeString($var) {
@@ -24,7 +24,7 @@ class DatabaseWrapper {
     if (get_magic_quotes_gpc()) {
       $var = stripslashes($var);
     }
-    return $this->$databaseConnection->real_escape_string($var);
+    return $this->databaseConnection->real_escape_string($var);
   }
 
   static function queryResultToPhpArray($queryResult) {
@@ -41,7 +41,7 @@ class DatabaseWrapper {
     $orderby = $treatedQuery['orderby'];
     $desc = $treatedQuery['desc'];
     $query = "SELECT * FROM $entity WHERE $criteria ORDER BY $orderby $desc";
-    $queryResult = $this->$databaseConnection->query($query);
+    $queryResult = $this->databaseConnection->query($query);
     return $queryResult;
   }
 
@@ -84,19 +84,9 @@ class DatabaseWrapper {
     return $treatedInsertQuery;
   }
 
-  function insert($queryArray) {
-    $treatedInsertQuery = $this->treatInsertQuery($queryArray);
-    $table =  $treatedInsertQuery['table'];
-    $fields = $treatedInsertQuery['fields'];
-    $values = $treatedInsertQuery['values'];
-    $query = "INSERT INTO $table ($fields) VALUES ($values)";
-    $result = $this->$databaseConnection->query($query);
-    return $result;
-  }
-
-  function insertNewNote($userid, $notetext) {
-    $query = "INSERT INTO notes (userid, notetext) VALUES ($userid,$notetext)";
-    $result = $this->$databaseConnection->query($query);
+  function insertNote($userid, $notetext) {
+    $query = "INSERT INTO notes (userid, notetext) VALUES ($userid,'$notetext')";
+    $result = $this->databaseConnection->query($query);
     return $result;
   }
 

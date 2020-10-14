@@ -55,3 +55,4 @@ function noteMessageFormater(note) {
     }
     return divNote;
 }
+
