@@ -5,7 +5,7 @@ class DatabaseWrapper {
   
   private  $databaseConnection;
 
-  function __construct(){
+  function __construct() {
     $databaseConnectionSetup = createDatabaseConnectionSetup();
     $hostName = $databaseConnectionSetup['hostName'];
     $database = $databaseConnectionSetup['database'];
