@@ -26,7 +26,7 @@ function insertNote() {
     const form = document.querySelector("#insertnoteform");
     let data = new FormData();
     data.append('userid', userid);
-    data.append('password', form.newnotetext.value);
+    data.append('notetext', form.newnotetext.value);
     fetch('backend/newnote.php', { method: 'POST', body: data })
         .then(response => response.text())
         .then(data => console.log(data));

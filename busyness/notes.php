@@ -19,7 +19,7 @@ class Notes {
     }
 
     function getNotes() {
-        $queryArray = Notes::makeNotesQuery();
+        $queryArray = Self::makeNotesQuery();
         $resultArray = $this->databaseWrapper->select($queryArray);
         $responseObject = array("notes" => $resultArray);
         return $responseObject;
@@ -32,7 +32,7 @@ class Notes {
 
     function getFields() {
         foreach ($this->fields as $field) {
-            if (Notes::formHasField($field)) {
+            if (Self::formHasField($field)) {
                 $this->fieldsArray[$field] = $_POST[$field];
             }
         }

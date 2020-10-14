@@ -46,8 +46,8 @@ class Login {
     }
 
     function checkCredentials() {
-        $response = Login::failResponse();
-        if (Login::postFieldsAreSet()) {
+        $response = Self::failResponse();
+        if (Self::postFieldsAreSet()) {
             $this->sanitizePostFields();
             if ($this->loginFieldsAreSet()) {
                 $loginQuery = $this->makeLoginQuery();
@@ -60,7 +60,7 @@ class Login {
             }
         }
         if ($response['userid'] == 0 || $response['username'] == "") {
-            Login::destroy_session();
+            Self::destroy_session();
         }
         return $response;
     }
@@ -74,11 +74,11 @@ class Login {
     }
 
     static function userIsLogged() {
-        return Login::sessionFieldsAreSet() && Login::sessionFieldsAreValid();
+        return Self::sessionFieldsAreSet() && Self::sessionFieldsAreValid();
     }
 
     function checkLogin() {
-        $response = Login::failResponse();
+        $response = Self::failResponse();
         $response['userid'] = $_SESSION['userid'];
         $response['username'] = $_SESSION['username'];
         return $response;

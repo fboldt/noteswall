@@ -58,6 +58,10 @@ class DatabaseWrapper {
     return $phpArrayResult;
   }
 
+  static function fieldIsId($field) {
+    return $field == "id";
+  }
+
   function treatInsertQuery($queryArray) {
     $treatedInsertQuery = array();
     $treatedInsertQuery['table'] = $queryArray['entity'];
@@ -71,7 +75,11 @@ class DatabaseWrapper {
       if (!empty($treatedInsertQuery['values'])) {
         $treatedInsertQuery['values'] .= ',';
       }
-      $treatedInsertQuery['values'] .= "'" . $value . "'";
+      if (Self::fieldIsId($field)) {
+        $treatedInsertQuery['values'] .= "$value";  
+      } else {
+        $treatedInsertQuery['values'] .= "'" . $value . "'";
+      }
     }
     return $treatedInsertQuery;
   }
@@ -82,6 +90,12 @@ class DatabaseWrapper {
     $fields = $treatedInsertQuery['fields'];
     $values = $treatedInsertQuery['values'];
     $query = "INSERT INTO $table ($fields) VALUES ($values)";
+    $result = $this->$databaseConnection->query($query);
+    return $result;
+  }
+
+  function insertNewNote($userid, $notetext) {
+    $query = "INSERT INTO notes (userid, notetext) VALUES ($userid,$notetext)";
     $result = $this->$databaseConnection->query($query);
     return $result;
   }
