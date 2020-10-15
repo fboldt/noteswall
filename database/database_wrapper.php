@@ -1,21 +1,12 @@
 <?php
-require_once '../database/database_connection_setup.php';
+require_once '../database/database_connection.php';
 
 class DatabaseWrapper {
   
-  private  $databaseConnection;
+  private $databaseConnection;
 
   function __construct() {
-    $databaseConnectionSetup = createDatabaseConnectionSetup();
-    $hostName = $databaseConnectionSetup['hostName'];
-    $database = $databaseConnectionSetup['database'];
-    $userName = $databaseConnectionSetup['userName'];
-    $password = $databaseConnectionSetup['password'];
-    $this->databaseConnection = new mysqli($hostName, $userName, $password, $database);
-  }
-
-  function __destruct() {
-    $this->databaseConnection->close();
+    $this->databaseConnection = new DatabaseConnection();
   }
 
   function sanitizeString($var) {
