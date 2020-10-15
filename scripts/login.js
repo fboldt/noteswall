@@ -12,7 +12,7 @@ function createCheckLoginDiv() {
 }
 
 function fetchCheckLoginPage() {
-    fetch('backend/checklogin.php')
+    fetch('auth/checklogin.php')
         .then(response => response.json())
         .then(data => treatLogin(data));
 }
@@ -36,7 +36,7 @@ function logout() {
     let data = new FormData();
     data.append('username', "");
     data.append('password', "");
-    fetch('backend/checklogin.php', { method: "POST", body: data })
+    fetch('auth/checklogin.php', { method: "POST", body: data })
         .then(response => response.json())
         .then(data => treatLogin(data));
 }
@@ -55,7 +55,7 @@ function login() {
     let data = new FormData();
     data.append('username', form.username.value);
     data.append('password', form.password.value);
-    fetch('backend/checklogin.php', { method: 'POST', body: data })
+    fetch('auth/checklogin.php', { method: 'POST', body: data })
         .then(response => response.json())
         .then(data => treatLogin(data));
 }

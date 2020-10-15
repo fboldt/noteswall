@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tests Page</title>
+</head>
+
+<body>
+
 <?php
 function run_test($file) {
     echo "<h1>" . $file . "</h1>";
@@ -8,5 +17,10 @@ function run_test($file) {
 }
 run_test('test_localhost.php');
 run_test('test_database_connection.php');
-
+run_test('test_database_wrapper.php');
+run_test('test_login.php');
 ?>
+
+</body>
+
+</html>

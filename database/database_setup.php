@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DB Setup</title>
+</head>
+
+<body>
+
 <pre>
 <?php
 require_once '../database/database_connection.php';
@@ -86,3 +95,7 @@ $databaseSetup->reset();
 
 ?>
 </pre>
+
+</body>
+
+</html>

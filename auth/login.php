@@ -34,15 +34,12 @@ class Login {
         return $response;
     }
 
-    private function makeLoginQuery() {
-        $queryArray = array();
-        $queryArray["entity"] = "users";
-        $queryArray["criteria"] = "password = '$this->password' AND username = '$this->username'";
-        return $queryArray;
-    }
-
     private function loginFieldsAreSet() {
         return !empty($this->username) && !empty($this->password);
+    }
+
+    private function fetchUserFromDataset() {
+        return $this->databaseWrapper->fetchUser($this->username, $this->password);
     }
 
     function checkCredentials() {
@@ -50,8 +47,7 @@ class Login {
         if (Self::postFieldsAreSet()) {
             $this->sanitizePostFields();
             if ($this->loginFieldsAreSet()) {
-                $loginQuery = $this->makeLoginQuery();
-                $result = $this->databaseWrapper->select($loginQuery);
+                $result = $this->fetchUserFromDataset();
                 if (sizeof($result) > 0) {
                     $userObj = $result[0];
                     $_SESSION['userid'] = $response['userid'] = $userObj['id'];

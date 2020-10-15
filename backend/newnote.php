@@ -8,6 +8,5 @@ function insertNote() {
 }
 
 print_r(insertNote());
-// header("Location: ../");
 
 ?>

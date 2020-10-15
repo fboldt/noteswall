@@ -1,5 +1,5 @@
 <?php
-require_once '../busyness/login.php';
+require_once '../auth/login.php';
 
 $login = new Login();
 $response = Login::failResponse();

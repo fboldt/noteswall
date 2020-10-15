@@ -21,7 +21,7 @@ function notesFormater(listOfNotes) {
     let divNotes = document.querySelector("#notes");
     listOfNotes.forEach(function (note) {
         text = noteMessageFormater(note);
-        divNotes.appendChild(text)
+        divNotes.prepend(text);
     })
 }
 
