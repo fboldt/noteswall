@@ -1,58 +1,79 @@
-document.addEventListener("DOMContentLoaded", startupNotes);
-
-function startupNotes() {
-    createNotesDiv();
-    fetchNotes(notesFormater);
-}
-
-function createNotesDiv() {
-    let notesDiv = document.createElement("div");
-    notesDiv.setAttribute("id", "notes");
-    document.body.appendChild(notesDiv);
-}
-
-function fetchNotes(formater) {
-    fetch('backend/getnotes.php')
-        .then(response => response.json())
-        .then(data => formater(data.notes));
-}
-
-function notesFormater(listOfNotes) {
-    let divNotes = document.querySelector("#notes");
-    listOfNotes.forEach(function (note) {
-        text = noteMessageFormater(note);
-        divNotes.prepend(text);
-    })
-}
-
-function createDiv(klass) {
-    let div = document.createElement("div");
-    div.setAttribute("class", klass);
-    return div;
-}
-
-function addText(elem, text) {
-    textNode = document.createTextNode(text);
-    elem.appendChild(textNode);
-}
-
-function createDivWithText(klass, text) {
-    let div = createDiv(klass);
-    addText(div, text);
-    return div;
-}
-
-function noteMessageFormater(note) {
-    let divNote = createDiv("note");
-    let fields = {
-        "noteuser": note.username,
-        "notetime": note.notetime,
-        "notetext": note.notetext,
+class Notes {
+    constructor() {
+        this.makeNewNoteFormDiv();
+        this.makeNotesDiv();
     }
-    for (let klass in fields) {
-        let element = createDivWithText(klass, fields[klass]);
-        divNote.appendChild(element);
+
+    makeNewNoteFormDiv() {
+        this.newNoteFormDiv = document.createElement("div");
+        this.newNoteFormDiv.setAttribute("id", "newnoteformdiv");
+        this.newNoteFormDiv.innerHTML = `
+        <form action="javascript:document.body.notes.insertNote()">
+            <textarea name="notetext" placeholder="new note" id="newnotetext" cols="25" rows="3" maxlength="128" required></textarea>
+            <input type="submit" value="insert note">
+        </form>`;
+        document.body.appendChild(this.newNoteFormDiv);
+        this.createObserver();
     }
-    return divNote;
+
+    createObserver() {
+        this.loginDiv = document.querySelector("#login");
+        const observer = new MutationObserver(() => {
+            newNoteFormDisplay(this.loginDiv, this.newNoteFormDiv);
+        });
+        observer.observe(this.loginDiv, { subtree: true, childList: true });
+    }
+
+    insertNote() {
+        const userid = this.loginDiv.getAttribute('userid');
+        const form = this.newNoteFormDiv.querySelector("form");
+        let data = new FormData();
+        data.append('userid', userid);
+        data.append('notetext', form.newnotetext.value);
+        fetch('backend/newnote.php', { method: 'POST', body: data })
+            .then(response => response.text())
+            .then(data => {
+                if (data == "1") {
+                    this.fetchNotes();
+                    form.newnotetext.value = "";
+                }
+            });
+    }
+
+    makeNotesDiv() {
+        this.notesDiv = document.createElement("div");
+        document.body.appendChild(this.notesDiv);
+        this.fetchNotes();
+    }
+    
+    fetchNotes() {
+        fetch('backend/getnotes.php')
+            .then(response => response.json())
+            .then(data => {
+                this.notesDiv.innerHTML = "";
+                data.notes.forEach(note => {
+                    this.notesDiv.innerHTML = formatNote(note) + this.notesDiv.innerHTML ;
+                });
+            });
+    }
 }
 
+function newNoteFormDisplay(loginDiv, newNoteFormDiv) {
+    if (loginDiv.getAttribute('userid') != '0') {
+        newNoteFormDiv.style.display = "block";
+    } else {
+        newNoteFormDiv.style.display = "none";
+    }
+}
+
+function formatNote(note) {
+    return `    <div id="note${note.noteid}" userid="${note.userid}">
+        <div class="username"">${note.username}</div>
+        <div class="notetime">${note.notetime}</div>
+        <div class="notetext">${note.notetext}</div>
+    </div>`;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.body.notes = new Notes();
+});

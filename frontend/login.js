@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", startupCheckLogin);
 
 function startupCheckLogin() {
     createCheckLoginDiv();
-    fetchCheckLoginPage(treatLogin);
+    fetchCheckLoginPage();
 }
 
 function createCheckLoginDiv() {
