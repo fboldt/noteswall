@@ -89,6 +89,13 @@ class Login {
         return Self::sessionFieldsAreSet() && Self::sessionFieldsAreValid();
     }
 
+    static function loggedUserId() {
+        if (Self::userIsLogged()) {
+            return $_SESSION['userid'];
+        }
+        return 0;
+    }
+
     function checkLogin() {
         $response = Self::failResponse();
         $response['userid'] = $_SESSION['userid'];

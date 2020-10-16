@@ -1,7 +1,9 @@
 <?php
 require_once '../database/database_wrapper.php';
+require_once '../auth/login.php';
 
 class Notes {
+
     private $databaseWrapper, $fields, $fieldsArray;
 
     function __construct() {
@@ -17,7 +19,23 @@ class Notes {
     }
 
     function insertNote($userid, $notetext) {
-        $response = $this->databaseWrapper->insertNote($userid, $notetext);
+        $response = NULL;
+        if (Login::loggedUserId() == $userid) {
+            $response = $this->databaseWrapper->insertNote($userid, $notetext);
+        }
+        return $response;
+    }
+
+    function getNote($noteid) {
+        return $this->databaseWrapper->getNote($noteid);
+    }
+
+    function removeNote($userid, $noteid) {
+        $response = NULL;
+        if ((Login::loggedUserId() == $userid) && 
+            ($userid == $this->getNote($noteid)['userid'])) {
+            $response = $this->databaseWrapper->removeNote($noteid);
+        }
         return $response;
     }
 

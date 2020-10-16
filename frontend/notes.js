@@ -9,6 +9,20 @@ class Notes {
         this.makeNotesDiv();
     }
 
+    removeNote(noteid) {
+        const userid = this.loginDiv.getAttribute('userid');
+        let data = new FormData();
+        data.append('userid', userid);
+        data.append('noteid', noteid);
+        fetch('backend/removenote.php', { method: 'POST', body: data })
+            .then(response => response.text())
+            .then(data => {
+                if (data == "1") {
+                    this.fetchNotes();
+                }
+            });
+    }
+
     makeNewNoteFormDiv() {
         this.newNoteFormDiv = document.createElement("div");
         this.newNoteFormDiv.innerHTML = `
@@ -17,13 +31,15 @@ class Notes {
             <input type="submit" value="insert note">
         </form>`;
         document.body.appendChild(this.newNoteFormDiv);
-        this.createObserver();
+        this.createLoginDivObserver();
     }
 
-    createObserver() {
+    createLoginDivObserver() {
         this.loginDiv = document.querySelector("#login");
         const observer = new MutationObserver(() => {
             newNoteFormDisplay(this.loginDiv, this.newNoteFormDiv);
+            const userid = this.loginDiv.getAttribute('userid');
+            toogleRemoveNoteLinkDisplay(userid);
         });
         observer.observe(this.loginDiv, { subtree: true, childList: true });
     }
@@ -34,7 +50,7 @@ class Notes {
         let data = new FormData();
         data.append('userid', userid);
         data.append('notetext', form.newnotetext.value);
-        fetch('backend/newnote.php', { method: 'POST', body: data })
+        fetch('backend/insertnote.php', { method: 'POST', body: data })
             .then(response => response.text())
             .then(data => {
                 if (data == "1") {
@@ -48,6 +64,7 @@ class Notes {
         this.notesDiv = document.createElement("div");
         document.body.appendChild(this.notesDiv);
         this.fetchNotes();
+        this.createNotesDivObserver();
     }
     
     fetchNotes() {
@@ -60,10 +77,31 @@ class Notes {
                 });
             });
     }
+
+    createNotesDivObserver() {
+        const observer = new MutationObserver(() => {
+            const userid = this.loginDiv.getAttribute('userid');
+            toogleRemoveNoteLinkDisplay(userid);
+        });
+        observer.observe(this.notesDiv, { subtree: true, childList: true });
+    }
+    
+}
+
+function toogleRemoveNoteLinkDisplay(userid) {
+    let links = document.querySelectorAll(`.linkremovenote`);
+    links.forEach(link => {
+        if (link.getAttribute("userid") == userid) {
+            link.style.display = "inline";
+        } else {
+            link.style.display = "none";
+        }        
+    })
 }
 
 function newNoteFormDisplay(loginDiv, newNoteFormDiv) {
-    if (loginDiv.getAttribute('userid') != '0') {
+    let userid = loginDiv.getAttribute('userid');
+    if (userid != '0') {
         newNoteFormDiv.style.display = "block";
     } else {
         newNoteFormDiv.style.display = "none";
@@ -74,6 +112,9 @@ function formatNote(note) {
     return `    <div id="note${note.noteid}" userid="${note.userid}">
         <div class="username"">${note.username}</div>
         <div class="notetime">${note.notetime}</div>
-        <div class="notetext">${note.notetext}</div>
+        <div class="notetext">
+            ${note.notetext}
+            <a href="javascript:document.body.notes.removeNote(${note.noteid})" class="linkremovenote" userid="${note.userid}" style="display: none">remove</a>
+        </div>
     </div>`;
 }

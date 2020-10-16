@@ -45,11 +45,24 @@ class DatabaseWrapper {
     $phpArrayResult = self::queryResultToPhpArray($queryResult);
     return $phpArrayResult;
   }
+
+  function getNote($noteid) {
+    $query = "SELECT * FROM notes WHERE id='$noteid'";
+    $queryResult = $this->databaseConnection->query($query);
+    $phpArrayResult = self::queryResultToPhpArray($queryResult);
+    return $phpArrayResult[0];  
+  }
  
   function insertNote($userid, $notetext) {
     $query = "INSERT INTO notes (userid, notetext) VALUES ($userid,'$notetext')";
     $result = $this->databaseConnection->query($query);
     return $result;
+  }
+
+  function removeNote($noteid) {
+    $query = "DELETE FROM notes WHERE id='$noteid'";
+    $result = $this->databaseConnection->query($query);
+    return $result;  
   }
 
 }
