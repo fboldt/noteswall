@@ -26,20 +26,26 @@ class DatabaseWrapper {
     return $phparray;
   }
   
-  function selectAll($table) {
-    $query = "SELECT * FROM $table";
-    $queryResult = $this->databaseConnection->query($query);
-    $phpArrayResult = self::queryResultToPhpArray($queryResult);
-    return $phpArrayResult;
-  }
-
   function fetchUser($username, $password) {
     $query = "SELECT * FROM users WHERE password='$password' AND username='$username'";
     $queryResult = $this->databaseConnection->query($query);
     $phpArrayResult = self::queryResultToPhpArray($queryResult);
     return $phpArrayResult;  
   }
-  
+
+  function insertUser($username, $password) {
+    $query = "INSERT INTO users (username, password) VALUES ('$username','$password')";
+    $result = $this->databaseConnection->query($query);
+    return $result;
+  }
+ 
+  function selectAll($table) {
+    $query = "SELECT * FROM $table";
+    $queryResult = $this->databaseConnection->query($query);
+    $phpArrayResult = self::queryResultToPhpArray($queryResult);
+    return $phpArrayResult;
+  }
+ 
   function insertNote($userid, $notetext) {
     $query = "INSERT INTO notes (userid, notetext) VALUES ($userid,'$notetext')";
     $result = $this->databaseConnection->query($query);

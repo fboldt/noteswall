@@ -10,6 +10,10 @@ function login() {
     document.body.login.login();
 }
 
+function signup() {
+    document.body.login.signup();
+}
+
 class Login {
 
     constructor() {
@@ -59,10 +63,11 @@ class Login {
 
     makeFormLogin() {
         this.loginDiv.innerHTML = `
-        <form action="javascript:login()" id="loginform">
+        <form action="javascript:login()">
             <input type="text" size="6" name="username" placeholder="username">
             <input type="password" size="6" name="password" placeholder="password">
             <input type="submit" value="login">
+            <button onclick="signup()">signup</button>
         </form>`;
     }
 
@@ -72,6 +77,18 @@ class Login {
         data.append('username', form.username.value);
         data.append('password', form.password.value);
         fetch('auth/checklogin.php', { method: 'POST', body: data })
+            .then(response => response.json())
+            .then(data => {
+                this.checkLogin(data);
+            });
+    }
+
+    signup() {
+        const form = this.loginDiv.querySelector("form");
+        let data = new FormData();
+        data.append('username', form.username.value);
+        data.append('password', form.password.value);
+        fetch('auth/signup.php', { method: 'POST', body: data })
             .then(response => response.json())
             .then(data => {
                 this.checkLogin(data);

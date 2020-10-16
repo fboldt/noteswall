@@ -1,3 +1,7 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .notetext {
     padding-left: 20px;
     margin-bottom: 1ex;
@@ -7,6 +11,6 @@
     font-size: xx-small;
 }
 
-.noteuser {
+.username {
     font-weight: bold;
 }

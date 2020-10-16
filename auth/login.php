@@ -38,7 +38,7 @@ class Login {
         return !empty($this->username) && !empty($this->password);
     }
 
-    private function fetchUserFromDataset() {
+    private function fetchUserFromDatabase() {
         return $this->databaseWrapper->fetchUser($this->username, $this->password);
     }
 
@@ -47,7 +47,7 @@ class Login {
         if (Self::postFieldsAreSet()) {
             $this->sanitizePostFields();
             if ($this->loginFieldsAreSet()) {
-                $result = $this->fetchUserFromDataset();
+                $result = $this->fetchUserFromDatabase();
                 if (sizeof($result) > 0) {
                     $userObj = $result[0];
                     $_SESSION['userid'] = $response['userid'] = $userObj['id'];
@@ -57,6 +57,20 @@ class Login {
         }
         if ($response['userid'] == 0 || $response['username'] == "") {
             Self::destroy_session();
+        }
+        return $response;
+    }
+
+    private function insertUserInDatabase() {
+        return $this->databaseWrapper->insertUser($this->username, $this->password);
+    }
+
+    function insertUser() {
+        $response = Self::failResponse();
+        $this->sanitizePostFields();
+        $result = $this->insertUserInDatabase();
+        if ($result) {
+            $response = $this->checkCredentials();
         }
         return $response;
     }
