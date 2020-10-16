@@ -1,4 +1,9 @@
+document.addEventListener("DOMContentLoaded", function () {
+    document.body.notes = new Notes();
+});
+
 class Notes {
+
     constructor() {
         this.makeNewNoteFormDiv();
         this.makeNotesDiv();
@@ -72,7 +77,3 @@ function formatNote(note) {
         <div class="notetext">${note.notetext}</div>
     </div>`;
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.body.notes = new Notes();
-});

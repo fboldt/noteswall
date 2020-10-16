@@ -75,9 +75,9 @@ class DatabaseSetup {
   }
 
   private function insertExamples() {
-    $query = "INSERT INTO users (username, password) VALUES ('firstuser', '123123')";
+    $query = "INSERT INTO users (username, password) VALUES ('someuser', '123123')";
     $this->execute($query);
-    $query = "INSERT INTO notes (userid, notetext) VALUES (1,'first note')";
+    $query = "INSERT INTO notes (userid, notetext) VALUES (1,'Very first note of all.')";
     $this->execute($query);
   }
 
