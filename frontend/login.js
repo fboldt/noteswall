@@ -60,8 +60,8 @@ class Login {
     makeFormLogin() {
         this.loginDiv.innerHTML = `
         <form action="javascript:login()" id="loginform">
-            <input type="text" size="6" name="username" placeholder="username" value="someuser">
-            <input type="password" size="6" name="password" placeholder="password" value="123123">
+            <input type="text" size="6" name="username" placeholder="username">
+            <input type="password" size="6" name="password" placeholder="password">
             <input type="submit" value="login">
         </form>`;
     }
