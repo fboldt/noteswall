@@ -64,8 +64,8 @@ class Login {
     makeFormLogin() {
         this.loginDiv.innerHTML = `
         <form action="javascript:login()">
-            <input type="text" size="6" name="username" placeholder="username">
-            <input type="password" size="6" name="password" placeholder="password">
+            <input type="text" size="6" name="username" placeholder="username" maxlength="16">
+            <input type="password" size="6" name="password" placeholder="password" maxlength="128">
             <input type="submit" value="login">
             <button onclick="signup()">signup</button>
         </form>`;

@@ -23,8 +23,10 @@ class Login {
     }
 
     private function sanitizePostFields() {
-        $this->username = $this->sanitizeString($_POST['username']);
-        $this->password = $this->sanitizeString($_POST['password']);
+        $usernameWithoutWhiteSpaces = preg_replace("/\s+/", "", $_POST['username']);
+        $this->username = $this->sanitizeString($usernameWithoutWhiteSpaces);
+        $passwordWithoutWhiteSpaces = preg_replace("/\s+/", "", $_POST['password']);
+        $this->password = $this->sanitizeString($passwordWithoutWhiteSpaces);
     }
 
     static function failResponse() {
