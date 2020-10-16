@@ -6,7 +6,6 @@ class Notes {
 
     makeNewNoteFormDiv() {
         this.newNoteFormDiv = document.createElement("div");
-        this.newNoteFormDiv.setAttribute("id", "newnoteformdiv");
         this.newNoteFormDiv.innerHTML = `
         <form action="javascript:document.body.notes.insertNote()">
             <textarea name="notetext" placeholder="new note" id="newnotetext" cols="25" rows="3" maxlength="128" required></textarea>
