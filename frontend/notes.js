@@ -39,7 +39,7 @@ class Notes {
         const observer = new MutationObserver(() => {
             newNoteFormDisplay(this.loginDiv, this.newNoteFormDiv);
             const userid = this.loginDiv.getAttribute('userid');
-            toogleRemoveNoteLinkDisplay(userid);
+            toggleRemoveNoteLinkDisplay(userid);
         });
         observer.observe(this.loginDiv, { subtree: true, childList: true });
     }
@@ -81,14 +81,14 @@ class Notes {
     createNotesDivObserver() {
         const observer = new MutationObserver(() => {
             const userid = this.loginDiv.getAttribute('userid');
-            toogleRemoveNoteLinkDisplay(userid);
+            toggleRemoveNoteLinkDisplay(userid);
         });
         observer.observe(this.notesDiv, { subtree: true, childList: true });
     }
     
 }
 
-function toogleRemoveNoteLinkDisplay(userid) {
+function toggleRemoveNoteLinkDisplay(userid) {
     let links = document.querySelectorAll(`.linkremovenote`);
     links.forEach(link => {
         if (link.getAttribute("userid") == userid) {
